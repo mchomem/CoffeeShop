@@ -1,6 +1,6 @@
 @CoffeeShop.Customer_HostAddress = http://localhost:5047
 
-GET {{CoffeeShop.Customer_HostAddress}}/weatherforecast/
+GET {{CoffeeShop.Customer_HostAddress}}/api/Customer/
 Accept: application/json
 
 ###

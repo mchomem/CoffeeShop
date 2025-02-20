@@ -1,6 +1,21 @@
-@CoffeeShop.Gateway_HostAddress = http://localhost:5284
+@CoffeeShop.Gateway_HostAddress = https://localhost:7066
 
-GET {{CoffeeShop.Gateway_HostAddress}}/weatherforecast/
+GET {{CoffeeShop.Gateway_HostAddress}}/gateway/Customer/
+Accept: application/json
+
+###
+
+GET {{CoffeeShop.Gateway_HostAddress}}/gateway/Customer/1
+Accept: application/json
+
+###
+
+GET {{CoffeeShop.Gateway_HostAddress}}/gateway/Menu/
+Accept: application/json
+
+###
+
+GET {{CoffeeShop.Gateway_HostAddress}}/gateway/Menu/1
 Accept: application/json
 
 ###

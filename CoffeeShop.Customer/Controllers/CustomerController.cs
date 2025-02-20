@@ -1,21 +1,30 @@
-﻿using CoffeeShop.Customer.Dtos;
-using CoffeeShop.Customer.Modups;
+﻿using CoffeeShop.Customer.Modups;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoffeeShop.Customer.Controllers
+namespace CoffeeShop.Customer.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CustomerController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CustomerController : ControllerBase
+    private readonly CustomerMokup _customerMokup;
+
+    public CustomerController(CustomerMokup customerMokup)
     {
-        private readonly CustomerMokup _customerMokup;
+        _customerMokup = customerMokup;
+    }
 
-        public CustomerController(CustomerMokup customerMokup) => _customerMokup = customerMokup;
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var customers = await Task.Run(() => _customerMokup.GetCustomers());
+        return Ok(customers);
+    }
 
-        [HttpGet]
-        public async Task<ActionResult<List<CustomerDto>>> Get() => await Task.Run(() => _customerMokup.GetCustomers());
-
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<CustomerDto>> Get(int id) => await Task.Run(() => _customerMokup.GetCustomers()[id - 1]);
+    [HttpGet("{id}", Name = "Get")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var customer = await Task.Run(() => _customerMokup.GetCustomers()[id - 1]);
+        return Ok(customer);
     }
 }

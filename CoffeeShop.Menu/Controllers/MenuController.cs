@@ -1,22 +1,30 @@
-﻿using CoffeeShop.Menu.Dtos;
-using CoffeeShop.Menu.Mokups;
+﻿using CoffeeShop.Menu.Mokups;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoffeeShop.Menu.Controllers
+namespace CoffeeShop.Menu.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class MenuController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MenuController : ControllerBase
+    private readonly ProductMokaup _productMokaup;
+
+    public MenuController(ProductMokaup productMokaup)
     {
-        private readonly ProductMokaup _productMokaup;
+        _productMokaup = productMokaup;
+    }
 
-        public MenuController(ProductMokaup productMokaup) => _productMokaup = productMokaup;
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var menus =  await Task.Run(() => _productMokaup.GetProducts());
+        return Ok(menus);
+    }
 
-        [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> Get()
-            => await Task.Run(() => _productMokaup.GetProducts());
-
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<ProductDto>> Get(int id) => await Task.Run(() => _productMokaup.GetProducts()[id - 1]);
+    [HttpGet("{id}", Name = "Get")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var menu = await Task.Run(() => _productMokaup.GetProducts()[id - 1]);
+        return Ok(menu);
     }
 }
